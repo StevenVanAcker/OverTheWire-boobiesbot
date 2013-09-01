@@ -57,7 +57,7 @@ class BoobiesBot(GenericIRCBot):
         }
 
     def handle_BOOBIES(self, msgtype, user, recip, cmd, url=""): #{{{
-        if url and url.startswith("http://"):
+        if url and url.startswith(("http://","https://")):
             if msgtype == "private":
                 self.sendMessage(msgtype, user, recip, "Sorry, adding is not allowed in this message mode.")
                 return
@@ -108,8 +108,8 @@ class BoobiesBot(GenericIRCBot):
         maybeurls = msg.split()
 
         for url in maybeurls:
-            # URL must start with http://
-            if not url.startswith("http://"):
+            # URL must start with http:// or https://
+            if not url.startswith(("http://","https://")):
                 continue
             # URL must end with valid suffix
             validSuffices = [".jpg", ".jpeg", ".gif", ".png"]
@@ -180,7 +180,7 @@ class BoobiesBotFactory(GenericIRCBotFactory):
 
 if __name__ == '__main__':
     # create factory protocol and application
-    f = BoobiesBotFactory(BoobiesBot, ["#social"], "BoobiesBot", "BoobiesBot v1.3", "https://github.com/StevenVanAcker/OverTheWire-boobiesbot")
+    f = BoobiesBotFactory(BoobiesBot, ["#boobiedev"], "BoobiesBot", "BoobiesBot v1.3", "https://github.com/StevenVanAcker/OverTheWire-boobiesbot")
 
     # connect factory to this host and port
     reactor.connectTCP("irc.overthewire.org", 6667, f)
