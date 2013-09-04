@@ -51,16 +51,16 @@ class BoobiesBot(GenericIRCBot):
                 "tillEnd": False,
                 "help": "get info on this bot",
             },
-	}
+        }
 
-	self.commands = {
-	    # only in direct user message, first word is the command
-	    "private": ["!help", "!boobies", "!aaboobies", "!info"],
-	    # only in channels, first word must be the command
-	    "public": ["!boobies", "!delboobies", "!info"],
-	    # only in channels, first word is the name of this bot followed by a colon, second word is the command
-	    "directed": ["!boobies", "!delboobies", "!info"],
-	}
+        self.commands = {
+            # only in direct user message, first word is the command
+            "private": ["!help", "!boobies", "!aaboobies", "!info"],
+            # only in channels, first word must be the command
+            "public": ["!boobies", "!delboobies", "!info"],
+            # only in channels, first word is the name of this bot followed by a colon, second word is the command
+            "directed": ["!boobies", "!delboobies", "!info"],
+        }
 
     def handle_BOOBIES(self, msgtype, user, recip, cmd, url=""): #{{{
         if url and url.startswith(("http://","https://")):
@@ -110,40 +110,40 @@ class BoobiesBot(GenericIRCBot):
             self.sendMessage(msgtype ,user ,recip, out_arr[i])
 #}}}
     def handle_INFO(self, msgtype, user, recip, cmd, url=""): #{{{
-	self.sendMessage(msgtype, user, recip, "I am %s. Contribute to my sourcecode via pull-requests on %s." % (self.getFullname(), self.getURL()))
-	return
+        self.sendMessage(msgtype, user, recip, "I am %s. Contribute to my sourcecode via pull-requests on %s." % (self.getFullname(), self.getURL()))
+        return
 #}}}
 
     def privmsg(self, user, channel, msg): #{{{
-	# don't do anything if this message might be processed later on
-	for cmd in self.commandData.keys():
-	    if cmd in msg:
-		GenericIRCBot.privmsg(self, user, channel, msg)
-		return
-	
-	# look at individual pieces, each may be an URL
-    	maybeurls = msg.split()
+        # don't do anything if this message might be processed later on
+        for cmd in self.commandData.keys():
+            if cmd in msg:
+                GenericIRCBot.privmsg(self, user, channel, msg)
+                return
 
-	for url in maybeurls:
-	    # URL must start with http:// or https://
+        # look at individual pieces, each may be an URL
+        maybeurls = msg.split()
+
+        for url in maybeurls:
+            # URL must start with http:// or https://
         if not url.startswith("http://","https://"):
-	        continue
-	    # URL must end with valid suffix
-	    validSuffices = [".jpg", ".jpeg", ".gif", ".png"]
-	    hasValidSuffix = False
+            continue
+            # URL must end with valid suffix
+        validSuffices = [".jpg", ".jpeg", ".gif", ".png"]
+            hasValidSuffix = False
 
-	    for suf in validSuffices:
-		if url.endswith(suf):
-		    hasValidSuffix = True
-		    break
+            for suf in validSuffices:
+                if url.endswith(suf):
+                    hasValidSuffix = True
+                    break
 
 
-	    if not hasValidSuffix:
-	        continue
+            if not hasValidSuffix:
+                continue
 
-	    # Check if URL contains boobies, add it if it does
-	    if isBoobiesPicture(url) and not self.factory.db_alreadyStored(url):
-		GenericIRCBot.privmsg(self, user, channel, "!boobies %s" % url)
+            # Check if URL contains boobies, add it if it does
+            if isBoobiesPicture(url) and not self.factory.db_alreadyStored(url):
+                GenericIRCBot.privmsg(self, user, channel, "!boobies %s" % url)
     #}}}
     def joined(self, channel): #{{{
         pass
