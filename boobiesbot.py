@@ -126,19 +126,11 @@ class BoobiesBot(GenericIRCBot):
 
         for url in maybeurls:
             # URL must start with http:// or https://
-        if not url.startswith("http://","https://"):
-            continue
+            if not url.startswith(("http://","https://")):
+                continue
             # URL must end with valid suffix
-        validSuffices = [".jpg", ".jpeg", ".gif", ".png"]
-            hasValidSuffix = False
-
-            for suf in validSuffices:
-                if url.endswith(suf):
-                    hasValidSuffix = True
-                    break
-
-
-            if not hasValidSuffix:
+            validSuffices = (".jpg", ".jpeg", ".gif", ".png")
+            if not url.endswith(validSuffices):
                 continue
 
             # Check if URL contains boobies, add it if it does
